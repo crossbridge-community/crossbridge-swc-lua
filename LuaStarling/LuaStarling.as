@@ -49,7 +49,7 @@ package
 		private var mStarling:Starling
 		private var scriptloader:URLLoader
 		
-		include "../../TestingCode.as";
+		//include "../../TestingCode.as";
 
 		public function write(fd:int, buf:int, nbyte:int, errno_ptr:int):int
 		{
