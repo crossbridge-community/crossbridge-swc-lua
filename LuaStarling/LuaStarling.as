@@ -49,8 +49,6 @@ package
 		private var mStarling:Starling
 		private var scriptloader:URLLoader
 		
-		//include "../../TestingCode.as";
-
 		public function write(fd:int, buf:int, nbyte:int, errno_ptr:int):int
 		{
 			var str:String = CModule.readString(buf, nbyte)
@@ -100,7 +98,6 @@ package
 			}
 
 			Starling.multitouchEnabled = true
-			initTesting();
 		}
 
 		private function onComplete(e:*):void
