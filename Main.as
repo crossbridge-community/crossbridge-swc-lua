@@ -10,8 +10,8 @@ import flash.utils.getTimer;
 import sample.lua.CModule;
 import sample.lua.vfs.ISpecialFile;
 
-[SWF(width="800", height="600", backgroundColor="#333333", frameRate="60")] class Main extends Sprite {
-
+[SWF(width="800", height="600", backgroundColor="#333333", frameRate="60")] 
+public class Main extends Sprite implements ISpecialFile {
     internal var luastate:int;
 
     private var inbox:TextField;

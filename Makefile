@@ -31,10 +31,8 @@
 all: check
 	@echo "-------- Example: Lua --------"
 	cd lua-5.2.0 && make FLASCC="$(call unixpath,$(FLASCC))" NP_FLASCC="$(call nativepath,$(FLASCC))" OPT_FLAGS="$(OPT_CFLAGS) $(EXTRACFLAGS)" flash
-
 	@echo "Compiling test app using SWC:"
-	#TODO: AIR SDK Does not provide MXML support, we should port the example to pure AS3
-	#"$(FLEX)/bin/mxmlc" -library-path+=lua.swc luatest.mxml -debug=$(MXMLC_DEBUG) -o luatest.swf
+	$(FLEX)/bin/mxmlc -library-path+=lua.swc Main.as -debug=$(MXMLC_DEBUG) -o luatest.swf
 	#TODO: AIR SDK Fails to compile with ambiguous reference to Starling Texture
 	#cd LuaStarling && "$(FLEX)/bin/mxmlc" -library-path+=../lua.swc LuaStarling.as -debug=$(MXMLC_DEBUG) -o LuaStarling.swf
 
