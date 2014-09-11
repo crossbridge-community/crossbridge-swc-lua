@@ -28,6 +28,45 @@
 
 .PHONY: debug clean all 
 
+# Detect host 
+$?UNAME=$(shell uname -s)
+#$(info $(UNAME))
+ifneq (,$(findstring CYGWIN,$(UNAME)))
+	$?nativepath=$(shell cygpath -at mixed $(1))
+	$?unixpath=$(shell cygpath -at unix $(1))
+else
+	$?nativepath=$(abspath $(1))
+	$?unixpath=$(abspath $(1))
+endif
+
+# CrossBridge SDK Home
+ifneq "$(wildcard $(call unixpath,$(FLASCC_ROOT)/sdk))" ""
+ $?FLASCC:=$(call unixpath,$(FLASCC_ROOT)/sdk)
+else
+ $?FLASCC:=/path/to/crossbridge-sdk/
+endif
+$?ASC2=java -jar $(call nativepath,$(FLASCC)/usr/lib/asc2.jar) -merge -md -parallel
+ 
+# Auto Detect AIR/Flex SDKs
+ifneq "$(wildcard $(AIR_HOME)/lib/compiler.jar)" ""
+ $?FLEX=$(AIR_HOME)
+else
+ $?FLEX:=/path/to/adobe-air-sdk/
+endif
+
+# Stage3D+
+$?GLS3D=$(FLASCC)/../samples/Example_GLS3D
+
+# C/CPP Compiler
+$?BASE_CFLAGS=-Werror -Wno-write-strings -Wno-trigraphs
+$?EXTRACFLAGS=
+$?OPT_CFLAGS=-O4
+
+# ASC2 Compiler
+$?MXMLC_DEBUG=true
+$?SWF_VERSION=25
+$?SWF_SIZE=800x600
+
 all: check
 	@echo "-------- Example: Lua --------"
 	cd lua-5.2.0 && make FLASCC="$(call unixpath,$(FLASCC))" NP_FLASCC="$(call nativepath,$(FLASCC))" OPT_FLAGS="$(OPT_CFLAGS) $(EXTRACFLAGS)" flash
@@ -39,7 +78,15 @@ all: check
 debug:
 	make all OPT_CFLAGS="-O0 -g" MXMLC_DEBUG=true
 
-include Makefile.common
+# Self check
+check:
+	@if [ -d $(FLASCC)/usr/bin ] ; then true ; \
+	else echo "Couldn't locate CrossBridge SDK directory, please invoke make with \"make FLASCC=/path/to/CrossBridge/ ...\"" ; exit 1 ; \
+	fi
+	@if [ -d "$(FLEX)/bin" ] ; then true ; \
+	else echo "Couldn't locate Adobe AIR or Apache Flex SDK directory, please invoke make with \"make FLEX=/path/to/AirOrFlex  ...\"" ; exit 1 ; \
+	fi
+	@echo "ASC2: $(ASC2)"
 
 clean:
 	cd lua-5.2.0 && make clean
