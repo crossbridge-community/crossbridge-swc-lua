@@ -33,7 +33,7 @@ CORE_O=	lapi.o lcode.o lctype.o ldebug.o ldo.o ldump.o lfunc.o lgc.o llex.o \
 	lmem.o lobject.o lopcodes.o lparser.o lstate.o lstring.o ltable.o \
 	ltm.o lundump.o lvm.o lzio.o
 LIB_O=	lauxlib.o lbaselib.o lbitlib.o lcorolib.o ldblib.o liolib.o \
-	lmathlib.o loslib.o lstrlib.o ltablib.o loadlib.o linit.o
+	lmathlib.o loslib.o lstrlib.o ltablib.o loadlib.o linit.o lflashlib.o
 BASE_O= $(CORE_O) $(LIB_O) $(MYOBJS)
 
 LUA_T=	lua
@@ -120,6 +120,25 @@ posix:
 solaris:
 	$(MAKE) $(ALL) SYSCFLAGS="-DLUA_USE_POSIX -DLUA_USE_DLOPEN" SYSLIBS="-ldl"
 
+flash:
+	PATH="$(FLASCC)/usr/bin:$(PATH)" $(MAKE) liblua.a SYSCFLAGS="-DLUA_USE_POSIX" MYCFLAGS="-emit-llvm"
+	"$(FLASCC)/usr/bin/swig" -as3 -module Lua -outdir . -includeall -ignoremissing as3api.h
+	java -jar "$(NP_FLASCC)/usr/lib/asc2.jar" -import "$(NP_FLASCC)/usr/lib/builtin.abc" -import "$(NP_FLASCC)/usr/lib/playerglobal.abc" Lua.as
+	"$(FLASCC)/usr/bin/gcc" $(OPT_FLAGS) -c as3api_wrap.c
+	"$(FLASCC)/usr/bin/nm" -f posix as3api_wrap.o | awk '{print $$1}' | sed 's/_//' > exports.txt
+	echo "_start1" >> exports.txt
+	echo "_Unwind_SjLj_Register"  >> exports.txt
+	echo "_Unwind_SjLj_Resume" >> exports.txt
+	echo "_Unwind_SjLj_Unregister" >> exports.txt
+	echo "__hack_used" >> exports.txt
+	echo "malloc" >> exports.txt
+	echo "free" >> exports.txt
+	echo "memcpy" >> exports.txt
+	echo "memmove" >> exports.txt
+	echo "vglttyioctl" >> exports.txt
+
+	"$(FLASCC)/usr/bin/gcc" $(OPT_FLAGS) as3api_wrap.o liblua.a Lua.abc -jvmopt="-Xmx2000M" -emit-swc=sample.lua -o ../../lua.swc
+
 # list targets that do not create files (but not all makes understand .PHONY)
 .PHONY: all $(PLATS) default o a clean depend echo none
 
@@ -131,6 +150,7 @@ lapi.o: lapi.c lua.h luaconf.h lapi.h llimits.h lstate.h lobject.h ltm.h \
 lauxlib.o: lauxlib.c lua.h luaconf.h lauxlib.h
 lbaselib.o: lbaselib.c lua.h luaconf.h lauxlib.h lualib.h
 lbitlib.o: lbitlib.c lua.h luaconf.h lauxlib.h lualib.h
+lflashlib.o: lflashlib.c lua.h luaconf.h lauxlib.h lualib.h
 lcode.o: lcode.c lua.h luaconf.h lcode.h llex.h lobject.h llimits.h \
  lzio.h lmem.h lopcodes.h lparser.h ldebug.h lstate.h ltm.h ldo.h lgc.h \
  lstring.h ltable.h lvm.h

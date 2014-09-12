@@ -1,4 +1,5 @@
-lua.swc
 luatest.swf
+lua.swc
+*.abc
 *.o
 *.a

@@ -1,6 +1,7 @@
 _wrap_LUAI_BITSINT
 _wrap_LUAI_FIRSTPSEUDOIDX
 _wrap_LUAI_MAXNUMBER2STR
+_wrap_LUAI_MAXSHORTLEN
 _wrap_LUAI_MAXSTACK
 _wrap_LUA_AUTHORS
 _wrap_LUA_BITLIBNAME
@@ -169,6 +170,7 @@ _wrap_lua_gettable
 _wrap_lua_gettop
 _wrap_lua_getupvalue
 _wrap_lua_getuservalue
+_wrap_lua_ident_get
 _wrap_lua_insert
 _wrap_lua_iscfunction
 _wrap_lua_isnumber
@@ -331,6 +333,7 @@ lua_gettable
 lua_gettop
 lua_getupvalue
 lua_getuservalue
+lua_ident
 lua_insert
 lua_iscfunction
 lua_isnumber

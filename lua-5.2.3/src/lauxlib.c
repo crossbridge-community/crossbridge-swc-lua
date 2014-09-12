@@ -933,8 +933,14 @@ static int panic (lua_State *L) {
   return 0;  /* return to Lua to abort */
 }
 
+// CROSSBRIDGE PATCH START
+extern void clean_flashstate();
+// CROSSBRIDGE PATCH END
 
 LUALIB_API lua_State *luaL_newstate (void) {
+  // CROSSBRIDGE PATCH START
+  clean_flashstate(); 
+  // CROSSBRIDGE PATCH END
   lua_State *L = lua_newstate(l_alloc, NULL);
   if (L) lua_atpanic(L, &panic);
   return L;

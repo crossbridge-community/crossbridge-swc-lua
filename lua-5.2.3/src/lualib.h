@@ -41,6 +41,10 @@ LUAMOD_API int (luaopen_debug) (lua_State *L);
 #define LUA_LOADLIBNAME	"package"
 LUAMOD_API int (luaopen_package) (lua_State *L);
 
+// CROSSBRIDGE PATCH END
+#define LUA_FLASHLIBNAME	"flash"
+LUAMOD_API int (luaopen_flash) (lua_State *L);
+// CROSSBRIDGE PATCH START
 
 /* open all previous libraries */
 LUALIB_API void (luaL_openlibs) (lua_State *L);

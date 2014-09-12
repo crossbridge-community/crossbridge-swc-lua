@@ -243,6 +243,21 @@ void _wrap_LUA_IDSIZE() {
 }
 
 
+__attribute__((annotate("as3sig:public function _wrap_LUAI_MAXSHORTLEN():int")))
+void _wrap_LUAI_MAXSHORTLEN() {
+  int result ;
+  
+  result = 40;
+  {
+    AS3_DeclareVar(asresult, int);
+    AS3_CopyScalarToVar(asresult, result);
+  }
+  {
+    AS3_ReturnAS3Var(asresult);
+  }
+}
+
+
 __attribute__((annotate("as3sig:public function _wrap_LUAI_BITSINT():int")))
 void _wrap_LUAI_BITSINT() {
   int result ;
@@ -386,7 +401,7 @@ __attribute__((annotate("as3sig:public function _wrap_LUA_VERSION_RELEASE():Stri
 void _wrap_LUA_VERSION_RELEASE() {
   char *result ;
   
-  result = "0";
+  result = "3";
   {
     int len = strlen(result);
     AS3_DeclareVar(asresult, String);
@@ -418,7 +433,7 @@ __attribute__((annotate("as3sig:public function _wrap_LUA_RELEASE():String")))
 void _wrap_LUA_RELEASE() {
   char *result ;
   
-  result = "Lua 5.2.0";
+  result = "Lua 5.2.3";
   {
     int len = strlen(result);
     AS3_DeclareVar(asresult, String);
@@ -434,7 +449,7 @@ __attribute__((annotate("as3sig:public function _wrap_LUA_COPYRIGHT():String")))
 void _wrap_LUA_COPYRIGHT() {
   char *result ;
   
-  result = "Lua 5.2.0  Copyright (C) 1994-2011 Lua.org, PUC-Rio";
+  result = "Lua 5.2.3  Copyright (C) 1994-2013 Lua.org, PUC-Rio";
   {
     int len = strlen(result);
     AS3_DeclareVar(asresult, String);
@@ -828,6 +843,21 @@ void _wrap_LUA_RIDX_LAST() {
   int result ;
   
   result = 2;
+  {
+    AS3_DeclareVar(asresult, int);
+    AS3_CopyScalarToVar(asresult, result);
+  }
+  {
+    AS3_ReturnAS3Var(asresult);
+  }
+}
+
+
+__attribute__((annotate("as3sig:public function _wrap_lua_ident_get():int")))
+void _wrap_lua_ident_get() {
+  char *result ;
+  
+  result = (char *)(char *)lua_ident;
   {
     AS3_DeclareVar(asresult, int);
     AS3_CopyScalarToVar(asresult, result);
@@ -2238,7 +2268,7 @@ void _wrap_lua_pushthread() {
 }
 
 
-__attribute__((annotate("as3sig:public function _wrap_lua_getglobal(L:int, varname:String):void")))
+__attribute__((annotate("as3sig:public function _wrap_lua_getglobal(L:int, _var:String):void")))
 void _wrap_lua_getglobal() {
   lua_State *arg1 = (lua_State *) 0 ;
   char *arg2 = (char *) 0 ;
@@ -2247,7 +2277,7 @@ void _wrap_lua_getglobal() {
     AS3_GetScalarFromVar(arg1, L);
   }
   {
-    AS3_MallocString(arg2, varname);
+    AS3_MallocString(arg2, _var);
   }
   lua_getglobal(arg1,(char const *)arg2);
   {
@@ -2472,7 +2502,7 @@ void _wrap_lua_getuservalue() {
 }
 
 
-__attribute__((annotate("as3sig:public function _wrap_lua_setglobal(L:int, varname:String):void")))
+__attribute__((annotate("as3sig:public function _wrap_lua_setglobal(L:int, _var:String):void")))
 void _wrap_lua_setglobal() {
   lua_State *arg1 = (lua_State *) 0 ;
   char *arg2 = (char *) 0 ;
@@ -2481,7 +2511,7 @@ void _wrap_lua_setglobal() {
     AS3_GetScalarFromVar(arg1, L);
   }
   {
-    AS3_MallocString(arg2, varname);
+    AS3_MallocString(arg2, _var);
   }
   lua_setglobal(arg1,(char const *)arg2);
   {

@@ -512,6 +512,10 @@ public class Lua {
 		return _wrap_LUA_IDSIZE();
 	}
 
+	public static function get LUAI_MAXSHORTLEN():int{
+		return _wrap_LUAI_MAXSHORTLEN();
+	}
+
 	public static function get LUAI_BITSINT():int{
 		return _wrap_LUAI_BITSINT();
 	}
@@ -666,6 +670,10 @@ public class Lua {
 
 	public static function get LUA_RIDX_LAST():int{
 		return _wrap_LUA_RIDX_LAST();
+	}
+
+	public static function get lua_ident():int {
+		return _wrap_lua_ident_get();
 	}
 
 	public static function lua_newstate(f:Function, ud:int):int {
@@ -892,8 +900,8 @@ public class Lua {
 		return _wrap_lua_pushthread(L);
 	}
 
-	public static function lua_getglobal(L:int, varname:String):void {
-		_wrap_lua_getglobal(L, varname);
+	public static function lua_getglobal(L:int, _var:String):void {
+		_wrap_lua_getglobal(L, _var);
 	}
 
 	public static function lua_gettable(L:int, idx:int):void {
@@ -932,8 +940,8 @@ public class Lua {
 		_wrap_lua_getuservalue(L, idx);
 	}
 
-	public static function lua_setglobal(L:int, varname:String):void {
-		_wrap_lua_setglobal(L, varname);
+	public static function lua_setglobal(L:int, _var:String):void {
+		_wrap_lua_setglobal(L, _var);
 	}
 
 	public static function lua_settable(L:int, idx:int):void {
