@@ -65,9 +65,7 @@ $?SWF_VERSION=26
 $?SWF_SIZE=800x600
 
 all: check
-	@echo "-------- Example: Lua --------"
 	cd lua-5.2.3 && make FLASCC="$(call unixpath,$(FLASCC))" NP_FLASCC="$(call nativepath,$(FLASCC))" OPT_FLAGS="$(OPT_CFLAGS) $(EXTRACFLAGS)" flash
-	@echo "Compiling test app using SWC:"
 	$(FLEX)/bin/mxmlc -library-path+=lua.swc Main.as -debug=$(MXMLC_DEBUG) -o luatest.swf
 	cd LuaStarling && "$(FLEX)/bin/mxmlc" -library-path+=../lua.swc -library-path+=starling.swc LuaStarling.as -debug=$(MXMLC_DEBUG) -o LuaStarling.swf
 

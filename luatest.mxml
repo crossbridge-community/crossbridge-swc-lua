@@ -14,11 +14,11 @@
                xmlns:mx="library://ns.adobe.com/flex/mx"
                width="480" height="960"
                applicationComplete="appInit(event)"
-               implements="sample.lua.vfs.ISpecialFile">
+               implements="crossbridge.lua.vfs.ISpecialFile">
     <fx:Script>
         <![CDATA[
-            import sample.lua.CModule;
-            import sample.lua.vfs.ISpecialFile;
+            import crossbridge.lua.CModule;
+            import crossbridge.lua.vfs.ISpecialFile;
             import flash.utils.ByteArray;
             import flash.utils.getTimer;
             import mx.controls.Alert;
