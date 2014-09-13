@@ -54,9 +54,6 @@ else
  $?FLEX:=/path/to/adobe-air-sdk/
 endif
 
-# Stage3D+
-$?GLS3D=$(FLASCC)/../samples/Example_GLS3D
-
 # C/CPP Compiler
 $?BASE_CFLAGS=-Werror -Wno-write-strings -Wno-trigraphs
 $?EXTRACFLAGS=
@@ -64,7 +61,7 @@ $?OPT_CFLAGS=-O4
 
 # ASC2 Compiler
 $?MXMLC_DEBUG=true
-$?SWF_VERSION=25
+$?SWF_VERSION=26
 $?SWF_SIZE=800x600
 
 all: check
@@ -72,8 +69,7 @@ all: check
 	cd lua-5.2.3 && make FLASCC="$(call unixpath,$(FLASCC))" NP_FLASCC="$(call nativepath,$(FLASCC))" OPT_FLAGS="$(OPT_CFLAGS) $(EXTRACFLAGS)" flash
 	@echo "Compiling test app using SWC:"
 	$(FLEX)/bin/mxmlc -library-path+=lua.swc Main.as -debug=$(MXMLC_DEBUG) -o luatest.swf
-	#TODO: AIR SDK Fails to compile with ambiguous reference to Starling Texture
-	#cd LuaStarling && "$(FLEX)/bin/mxmlc" -library-path+=../lua.swc LuaStarling.as -debug=$(MXMLC_DEBUG) -o LuaStarling.swf
+	cd LuaStarling && "$(FLEX)/bin/mxmlc" -library-path+=../lua.swc -library-path+=starling.swc LuaStarling.as -debug=$(MXMLC_DEBUG) -o LuaStarling.swf
 
 debug:
 	make all OPT_CFLAGS="-O0 -g" MXMLC_DEBUG=true
