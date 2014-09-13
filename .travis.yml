@@ -47,4 +47,4 @@ before_script:
     - export _JAVA_OPTIONS="-Xms256m -Xmx2048m"
 
 script:
-    - make FLASCC=/Users/travis/build/crossbridge-community/crossbridge-example-lua/crossbridge/sdk FLEX=/usr/local/opt/adobe-air-sdk/libexec
+    - make FLASCC=/Users/travis/build/crossbridge-community/crossbridge-swc-lua/crossbridge/sdk FLEX=/usr/local/opt/adobe-air-sdk/libexec
