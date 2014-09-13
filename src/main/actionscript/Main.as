@@ -28,26 +28,27 @@
  *
  */
 package {
+import crossbridge.lua.CModule;
+import crossbridge.lua.vfs.ISpecialFile;
+
 import flash.display.SimpleButton;
 import flash.display.Sprite;
 import flash.events.Event;
 import flash.text.TextField;
+import flash.text.TextFieldType;
 import flash.text.TextFormat;
-import flash.utils.ByteArray;
 import flash.utils.getTimer;
 
-import crossbridge.lua.CModule;
-import crossbridge.lua.vfs.ISpecialFile;
-
-[SWF(width="800", height="600", backgroundColor="#333333", frameRate="60")] 
+[SWF(width="800", height="600", backgroundColor="#999999", frameRate="60")]
 public class Main extends Sprite implements ISpecialFile {
     internal var luastate:int;
 
     private var inbox:TextField;
+
     private var outbox:TextField;
+
     private var runtimelabel:TextField;
-    private var button:SimpleButton;
-    
+
     public function Main() {
         addEventListener(Event.ADDED_TO_STAGE, appInit);
     }
@@ -55,17 +56,19 @@ public class Main extends Sprite implements ISpecialFile {
     internal function appInit(event:Event):void {
         removeEventListener(Event.ADDED_TO_STAGE, appInit);
 
-        runtimelabel = getTextField(0, 0, 800, 20);
-        inbox = getTextField(0, 20, 800, 280);
-        outbox = getTextField(0, 300, 800, 300);
+        runtimelabel = getTextField(5, 5, 790, 20);
+        inbox = getTextField(5, 30, 790, 275);
+        outbox = getTextField(5, 310, 790, 275);
 
-        // TODO: button = new SimpleButton();
+        inbox.text = "-- paste your LUA code here ...";
+        inbox.type = TextFieldType.INPUT;
+        inbox.addEventListener(Event.CHANGE, runScript);
 
-        CModule.rootSprite = this
-        CModule.vfs.console = this
-        CModule.startAsync(this)
+        CModule.rootSprite = this;
+        CModule.vfs.console = this;
+        CModule.startAsync(this);
 
-        runScript(null)
+        runScript();
     }
 
     private function getTextField(x:int, y:int, w:int, h:int):TextField {
@@ -77,13 +80,15 @@ public class Main extends Sprite implements ISpecialFile {
         result.multiline = true;
         result.selectable = true;
         result.wordWrap = true;
+        result.background = true;
+        result.backgroundColor = 0xFFFFFF;
         addChild(result);
         const tf:TextFormat = new TextFormat("Arial", 12, 0x000000);
         result.defaultTextFormat = tf;
         return result;
     }
 
-    internal function runScript(event:Event):void {
+    internal function runScript(event:Event = null):void {
         var err:int = 0
         outbox.text = ""
         luastate = Lua.luaL_newstate()

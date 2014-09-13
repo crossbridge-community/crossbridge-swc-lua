@@ -64,9 +64,13 @@ $?MXMLC_DEBUG=true
 $?SWF_VERSION=26
 $?SWF_SIZE=800x600
 
-all: 
+all: swc swf
+
+swc: 
 	cd lua-5.2.3 && make FLASCC="$(call unixpath,$(FLASCC))" NP_FLASCC="$(call nativepath,$(FLASCC))" OPT_FLAGS="$(OPT_CFLAGS) $(EXTRACFLAGS)" flash
-	$(FLEX)/bin/mxmlc -library-path+=lua.swc Main.as -debug=$(MXMLC_DEBUG) -o Main.swf
+
+swf: 
+	$(FLEX)/bin/mxmlc -library-path+=release/crossbridge-lua.swc src/main/actionscript/Main.as -debug=$(MXMLC_DEBUG) -o build/Main.swf
 
 clean:
 	cd lua-5.2.3 && make clean
