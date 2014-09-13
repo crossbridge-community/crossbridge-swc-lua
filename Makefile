@@ -64,25 +64,10 @@ $?MXMLC_DEBUG=true
 $?SWF_VERSION=26
 $?SWF_SIZE=800x600
 
-all: check
+all: 
 	cd lua-5.2.3 && make FLASCC="$(call unixpath,$(FLASCC))" NP_FLASCC="$(call nativepath,$(FLASCC))" OPT_FLAGS="$(OPT_CFLAGS) $(EXTRACFLAGS)" flash
-	$(FLEX)/bin/mxmlc -library-path+=lua.swc Main.as -debug=$(MXMLC_DEBUG) -o luatest.swf
-	cd LuaStarling && "$(FLEX)/bin/mxmlc" -library-path+=../lua.swc -library-path+=starling.swc LuaStarling.as -debug=$(MXMLC_DEBUG) -o LuaStarling.swf
-
-debug:
-	make all OPT_CFLAGS="-O0 -g" MXMLC_DEBUG=true
-
-# Self check
-check:
-	@if [ -d $(FLASCC)/usr/bin ] ; then true ; \
-	else echo "Couldn't locate CrossBridge SDK directory, please invoke make with \"make FLASCC=/path/to/CrossBridge/ ...\"" ; exit 1 ; \
-	fi
-	@if [ -d "$(FLEX)/bin" ] ; then true ; \
-	else echo "Couldn't locate Adobe AIR or Apache Flex SDK directory, please invoke make with \"make FLEX=/path/to/AirOrFlex  ...\"" ; exit 1 ; \
-	fi
-	@echo "ASC2: $(ASC2)"
+	$(FLEX)/bin/mxmlc -library-path+=lua.swc Main.as -debug=$(MXMLC_DEBUG) -o Main.swf
 
 clean:
 	cd lua-5.2.3 && make clean
 	rm -rf build install
-	rm -f luatest.swf lua.swc LuaStarling/LuaStarling.swf
