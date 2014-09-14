@@ -13,7 +13,8 @@ crossbridge-swc-lua
 2. Install [CrossBridge SDK](http://sourceforge.net/projects/crossbridge-community/files/)
 3. Set **AIR_HOME** environment variable pointing to the AIR SDK location
 4. Set **FLASCC_ROOT** environment variable pointing to the CrossBridge SDK location
-5. Run **make**
+5. Add **FLASCC_ROOT/sdk/usr/bin** to the Path (OSX)
+6. Run **make** (OSX) or **build.bat** (Windows)
 
 ## Using the library
 
