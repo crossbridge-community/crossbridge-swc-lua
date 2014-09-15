@@ -59,18 +59,13 @@ $?BASE_CFLAGS=-Werror -Wno-write-strings -Wno-trigraphs
 $?EXTRACFLAGS=
 $?OPT_CFLAGS=-O4
 
-# ASC2 Compiler
-$?MXMLC_DEBUG=true
-$?SWF_VERSION=26
-$?SWF_SIZE=800x600
-
 all: swc swf
 
 swc: 
 	cd lua-5.2.3 && make FLASCC="$(call unixpath,$(FLASCC))" NP_FLASCC="$(call nativepath,$(FLASCC))" OPT_FLAGS="$(OPT_CFLAGS) $(EXTRACFLAGS)" flash
 
 swf: 
-	$(FLEX)/bin/mxmlc -library-path+=release/crossbridge-lua.swc src/main/actionscript/Main.as -debug=$(MXMLC_DEBUG) -o build/Main.swf
+	$(FLEX)/bin/mxmlc -library-path+=release/crossbridge-lua.swc src/main/actionscript/Main.as -debug=false -o build/Main.swf
 
 clean:
 	cd lua-5.2.3 && make clean
